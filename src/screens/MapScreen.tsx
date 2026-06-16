@@ -156,7 +156,7 @@ export default function MapScreen({ navigation }: any) {
               <Image source={t.image} style={{ width: 56, height: 56, borderRadius: 15, backgroundColor: c.stone }} contentFit="cover" transition={250} />
               <View style={{ flex: 1 }}>
                 <Text style={{ fontFamily: font.heading, fontSize: 14.5, color: c.ink }} numberOfLines={1}>{t.name}</Text>
-                <Text style={{ fontSize: 11.5, color: c.inkSoft, marginTop: 3 }}>Tursti · {t.km.toString().replace('.', ',')} km lang</Text>
+                <Text style={{ fontSize: 11.5, color: c.inkSoft, marginTop: 3 }}>{t.km > 0 ? `Tursti · ${t.km.toString().replace('.', ',')} km lang` : 'Offisiell tursti'}</Text>
                 <Text style={{ fontSize: 11, color: c.ember, fontFamily: font.bodyBold, marginTop: 2 }}>{t.away.toFixed(1).replace('.', ',')} km unna</Text>
               </View>
               <Ionicons name="chevron-forward" size={18} color={c.inkFaint} />

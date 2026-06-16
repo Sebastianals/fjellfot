@@ -53,7 +53,7 @@ export default function GroupsScreen({ navigation }: any) {
               onPress={() => { tap(); navigation.navigate('GroupDetail', { id: g.id }); }}
               style={[styles.grow, i > 0 && { borderTopWidth: 1, borderTopColor: c.stoneLine }]}
             >
-              <Avatar initial="" size={50} c1={g.c1} c2={g.c2} style={{ borderRadius: 16 }} />
+              <Avatar initial="" icon={g.type === 'team' ? 'people' : 'trending-up'} size={50} c1={g.c1} c2={g.c2} style={{ borderRadius: 16 }} />
               <View style={{ flex: 1 }}>
                 <Text style={{ fontFamily: font.heading, fontSize: 15.5, color: c.ink }}>{g.name}</Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 4 }}>

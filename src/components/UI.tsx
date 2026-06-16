@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, Pressable, ViewStyle, Animated } from 'react-native';
 import Svg, { Circle, Defs, LinearGradient as SvgGradient, Stop } from 'react-native-svg';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useTheme } from '../theme/ThemeContext';
 import { radius, font } from '../theme/theme';
@@ -62,7 +63,7 @@ export function SectionHeader({ title, action, onAction }: { title: string; acti
   );
 }
 
-export function Avatar({ initial, size = 48, c1 = '#FF8A47', c2 = '#E2480A', style }: { initial: string; size?: number; c1?: string; c2?: string; style?: ViewStyle }) {
+export function Avatar({ initial, size = 48, c1 = '#FF8A47', c2 = '#E2480A', style, icon }: { initial: string; size?: number; c1?: string; c2?: string; style?: ViewStyle; icon?: any }) {
   return (
     <LinearGradient
       colors={[c1, c2]}
@@ -70,7 +71,11 @@ export function Avatar({ initial, size = 48, c1 = '#FF8A47', c2 = '#E2480A', sty
       end={{ x: 1, y: 1 }}
       style={[{ width: size, height: size, borderRadius: size * 0.33, alignItems: 'center', justifyContent: 'center' }, style]}
     >
-      <Text style={{ fontFamily: font.heading, color: '#fff', fontSize: size * 0.4 }}>{initial}</Text>
+      {icon ? (
+        <Ionicons name={icon} size={size * 0.5} color="#fff" />
+      ) : (
+        <Text style={{ fontFamily: font.heading, color: '#fff', fontSize: size * 0.4 }}>{initial}</Text>
+      )}
     </LinearGradient>
   );
 }

@@ -11,7 +11,7 @@ import { MountainChart } from '../components/MountainChart';
 import { usePedometer } from '../hooks/usePedometer';
 import { useAuth } from '../lib/AuthContext';
 import { useSettings } from '../lib/SettingsContext';
-import { subscribeGroups, saveDailySteps, Group } from '../lib/db';
+import { subscribeGroups, subscribeLeaderboard, saveDailySteps, Group, LbRow } from '../lib/db';
 
 export default function HomeScreen({ navigation }: any) {
   const { c } = useTheme();
@@ -26,6 +26,13 @@ export default function HomeScreen({ navigation }: any) {
 
   const [groups, setGroups] = useState<Group[]>([]);
   useEffect(() => subscribeGroups(setGroups), []);
+
+  const [board, setBoard] = useState<LbRow[]>([]);
+  useEffect(() => { if (!user) return; return subscribeLeaderboard('national', user.uid, setBoard); }, [user?.uid]);
+  const myIdx = board.findIndex((r) => r.you);
+  const rank = myIdx >= 0 ? myIdx + 1 : null;
+  const ahead = myIdx > 0 ? board[myIdx - 1] : null;
+  const gap = ahead ? ahead.steps - board[myIdx].steps : 0;
 
   const lastSaved = useRef(-1);
   useEffect(() => {
@@ -82,6 +89,24 @@ export default function HomeScreen({ navigation }: any) {
       </LinearGradient>
       </FadeIn>
 
+      {/* National rank — the competitive hook */}
+      <FadeIn delay={60}>
+      <Pressable onPress={() => { tap(); navigation.navigate('Toppliste'); }}>
+        <LinearGradient colors={[c.emberDeep, '#FF8A47']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.rankCard}>
+          <View style={{ flex: 1 }}>
+            <Text style={{ fontFamily: font.bodyBold, fontSize: 11, color: 'rgba(255,255,255,0.85)', letterSpacing: 1, textTransform: 'uppercase' }}>Din plass i Norge</Text>
+            <Text style={{ fontFamily: font.display, fontSize: 34, color: '#fff', marginTop: 4, letterSpacing: -1 }}>
+              {rank ? `#${rank}` : '—'}<Text style={{ fontFamily: font.body, fontSize: 14, color: 'rgba(255,255,255,0.85)' }}>  av {board.length || '—'}</Text>
+            </Text>
+            <Text style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.92)', marginTop: 4 }}>
+              {ahead ? `${gap.toLocaleString('nb-NO')} skritt bak ${ahead.name}` : board.length ? 'Du leder i Norge denne uka! 🏆' : 'Gå en tur for å komme på topplisten'}
+            </Text>
+          </View>
+          <Ionicons name="trophy" size={30} color="rgba(255,255,255,0.9)" />
+        </LinearGradient>
+      </Pressable>
+      </FadeIn>
+
       {week.length > 0 && (
         <>
           <SectionHeader title="Denne uka" action="Mer statistikk" onAction={() => navigation.navigate('Stats')} />
@@ -127,7 +152,7 @@ export default function HomeScreen({ navigation }: any) {
         <Card>
           {groups.slice(0, 4).map((g, i) => (
             <Pressable key={g.id} onPress={() => { tap(); navigation.navigate('GroupDetail', { id: g.id }); }} style={[styles.grow, i > 0 && { borderTopWidth: 1, borderTopColor: c.stoneLine }]}>
-              <Avatar initial="" size={46} c1={g.c1} c2={g.c2} />
+              <Avatar initial="" icon={g.type === 'team' ? 'people' : 'trending-up'} size={46} c1={g.c1} c2={g.c2} />
               <View style={{ flex: 1 }}>
                 <Text style={{ fontFamily: font.heading, fontSize: 15, color: c.ink }}>{g.name}</Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 4 }}>
@@ -162,6 +187,7 @@ function HStat({ v, label }: { v: string; label: string }) {
 const styles = StyleSheet.create({
   greeting: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginTop: 6, marginBottom: 22 },
   hero: { borderRadius: 34, padding: 24, marginBottom: 4, overflow: 'hidden' },
+  rankCard: { flexDirection: 'row', alignItems: 'center', gap: 14, borderRadius: 24, padding: 20, marginTop: 16 },
   heroTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', minHeight: 30 },
   heroLabel: { fontSize: 11, fontFamily: font.bodyBold, letterSpacing: 1.4, color: 'rgba(255,255,255,0.55)' },
   streak: { flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: 'rgba(255,107,26,0.18)', borderWidth: 1, borderColor: 'rgba(255,107,26,0.45)', paddingHorizontal: 13, paddingVertical: 7, borderRadius: 99 },
