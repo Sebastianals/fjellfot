@@ -59,7 +59,7 @@ export function useGeonorgeTrails(region: { latitude: number; longitude: number;
   const [trails, setTrails] = useState<RouteTrail[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const zoomedIn = region.latitudeDelta < 0.35;
+  const zoomedIn = region.latitudeDelta < 0.5;
 
   useEffect(() => {
     if (!zoomedIn) { setTrails([]); return; }

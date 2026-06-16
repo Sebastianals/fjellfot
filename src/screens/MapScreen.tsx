@@ -84,6 +84,11 @@ export default function MapScreen({ navigation }: any) {
       >
         <UrlTile key={baseTiles} urlTemplate={baseTiles} maximumZ={18} zIndex={-2} tileSize={256} />
 
+        {/* Mask outside Norway — drawn UNDER the trails so routes are never hidden. */}
+        {norwayRing && norwayRing.length > 20 && (
+          <Polygon coordinates={WORLD} holes={[norwayRing]} fillColor={c.snow} strokeColor="transparent" strokeWidth={0} />
+        )}
+
         {/* Official trail routes (Kartverket Tur- og friluftsruter) drawn as lines. */}
         {trails.map((t) => (
           <Polyline key={t.id} coordinates={t.coords} strokeColor="#E2480A" strokeWidth={4} lineCap="round" lineJoin="round" />
@@ -96,11 +101,6 @@ export default function MapScreen({ navigation }: any) {
 
         {/* Fog of war */}
         <Polygon coordinates={[{ latitude: NO.latMin, longitude: NO.lngMin }, { latitude: NO.latMax, longitude: NO.lngMin }, { latitude: NO.latMax, longitude: NO.lngMax }, { latitude: NO.latMin, longitude: NO.lngMax }]} holes={holes.length ? holes : undefined} fillColor={fogColor} strokeColor="transparent" strokeWidth={0} />
-
-        {/* Mask everything outside Norway's border so no other country shows. */}
-        {norwayRing && (
-          <Polygon coordinates={WORLD} holes={[norwayRing]} fillColor={c.snow} strokeColor={c.stoneLine} strokeWidth={1} />
-        )}
 
         {/* User-added places */}
         {pois.map((p) => (

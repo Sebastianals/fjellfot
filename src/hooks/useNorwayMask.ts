@@ -28,7 +28,10 @@ export function useNorwayMask() {
             .reduce((a: any, b: any) => ((b?.length ?? 0) > (a?.length ?? 0) ? b : a), []);
         }
         if (!Array.isArray(outer) || outer.length < 10) return;
-        const step = Math.max(1, Math.floor(outer.length / 320));
+        // Use the FULL border — a real boundary is a simple (non-self-intersecting)
+        // polygon, so the map "hole" stays valid. Downsampling caused crossings that
+        // invalidated the hole and blanked the map. Only cap if absurdly large.
+        const step = outer.length > 8000 ? Math.ceil(outer.length / 8000) : 1;
         const pts: LatLng[] = [];
         for (let i = 0; i < outer.length; i += step) {
           const [lng, lat] = outer[i];
