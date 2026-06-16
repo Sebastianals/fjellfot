@@ -27,7 +27,7 @@ export default function RankScreen({ navigation }: any) {
   const currentTierIdx = ladder.findIndex((t) => t.name === tier);
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: c.snow }} contentContainerStyle={{ paddingTop: insets.top + 8, paddingBottom: 120 }} showsVerticalScrollIndicator={false}>
+    <ScrollView style={{ flex: 1, backgroundColor: c.snow }} contentContainerStyle={{ paddingTop: insets.top + 8, paddingBottom: 28 }} showsVerticalScrollIndicator={false}>
       <View style={{ alignItems: 'center', paddingTop: 18, paddingHorizontal: 22 }}>
         <LinearGradient colors={['#2c241d', '#43332a']} style={styles.emblem}>
           <Ionicons name="triangle" size={54} color={c.ember} />

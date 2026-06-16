@@ -39,7 +39,7 @@ export default function HomeScreen({ navigation }: any) {
   const today = new Date().toLocaleDateString('nb-NO', { weekday: 'long', day: 'numeric', month: 'long' });
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: c.snow }} contentContainerStyle={{ paddingTop: insets.top + 8, paddingHorizontal: 22, paddingBottom: 120 }} showsVerticalScrollIndicator={false}>
+    <ScrollView style={{ flex: 1, backgroundColor: c.snow }} contentContainerStyle={{ paddingTop: insets.top + 8, paddingHorizontal: 22, paddingBottom: 28 }} showsVerticalScrollIndicator={false}>
       <View style={styles.greeting}>
         <View style={{ flex: 1 }}>
           <Text style={{ fontFamily: font.display, fontSize: 25, color: c.ink, letterSpacing: -0.6 }}>Hei, {profile?.first ?? 'der'}</Text>

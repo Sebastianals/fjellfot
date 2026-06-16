@@ -11,6 +11,7 @@ import { tap } from '../components/UI';
 import { useAuth } from '../lib/AuthContext';
 import { useExploration } from '../hooks/useExploration';
 import { useGeonorgeTrails, RouteTrail } from '../hooks/useGeonorgeTrails';
+import { useNorwayMask } from '../hooks/useNorwayMask';
 import { subscribePois, Poi } from '../lib/db';
 import { cellPolygon, explorePct } from '../lib/zones';
 
@@ -18,6 +19,11 @@ const TOPO_LIGHT = 'https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webme
 const TOPO_DARK = 'https://cache.kartverket.no/v1/wmts/1.0.0/topograatone/default/webmercator/{z}/{y}/{x}.png';
 const BERGEN = { latitude: 60.39, longitude: 5.32, latitudeDelta: 0.12, longitudeDelta: 0.12 };
 const NO = { latMin: 57.5, latMax: 71.4, lngMin: 4.0, lngMax: 31.5 };
+// Generous rectangle around the visible region — masked everywhere except Norway.
+const WORLD = [
+  { latitude: 48, longitude: -15 }, { latitude: 78, longitude: -15 },
+  { latitude: 78, longitude: 45 }, { latitude: 48, longitude: 45 },
+];
 
 const distKm = (a: any, b: any) => {
   const R = 6371, r = (d: number) => (d * Math.PI) / 180;
@@ -34,6 +40,7 @@ export default function MapScreen({ navigation }: any) {
   const { user } = useAuth();
   const { cells, status, position } = useExploration(user?.uid);
   const { trails, loading, error, zoomedIn } = useGeonorgeTrails(region);
+  const norwayRing = useNorwayMask();
 
   const [pois, setPois] = useState<Poi[]>([]);
   useEffect(() => subscribePois(setPois), []);
@@ -90,6 +97,11 @@ export default function MapScreen({ navigation }: any) {
         {/* Fog of war */}
         <Polygon coordinates={[{ latitude: NO.latMin, longitude: NO.lngMin }, { latitude: NO.latMax, longitude: NO.lngMin }, { latitude: NO.latMax, longitude: NO.lngMax }, { latitude: NO.latMin, longitude: NO.lngMax }]} holes={holes.length ? holes : undefined} fillColor={fogColor} strokeColor="transparent" strokeWidth={0} />
 
+        {/* Mask everything outside Norway's border so no other country shows. */}
+        {norwayRing && (
+          <Polygon coordinates={WORLD} holes={[norwayRing]} fillColor={c.snow} strokeColor={c.stoneLine} strokeWidth={1} />
+        )}
+
         {/* User-added places */}
         {pois.map((p) => (
           <Marker key={p.id} coordinate={{ latitude: p.lat, longitude: p.lng }} title={p.name} description={p.diff}>
@@ -114,7 +126,7 @@ export default function MapScreen({ navigation }: any) {
         <Ionicons name="locate" size={20} color={status === 'granted' ? c.ember : c.inkFaint} />
       </Pressable>
 
-      <View style={[styles.sheet, { backgroundColor: c.surface, borderColor: c.stoneLine, bottom: 100 }]}>
+      <View style={[styles.sheet, { backgroundColor: c.surface, borderColor: c.stoneLine, bottom: 16 }]}>
         <View style={[styles.handle, { backgroundColor: c.inkFaint }]} />
         <View style={styles.sheetHead}>
           <Text style={{ fontFamily: font.heading, fontSize: 15, color: c.ink }}>Turstier i området</Text>

@@ -27,7 +27,7 @@ export default function SettingsScreen({ navigation }: any) {
   };
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: c.snow }} contentContainerStyle={{ paddingTop: insets.top + 8, paddingHorizontal: 22, paddingBottom: 120 }} showsVerticalScrollIndicator={false}>
+    <ScrollView style={{ flex: 1, backgroundColor: c.snow }} contentContainerStyle={{ paddingTop: insets.top + 8, paddingHorizontal: 22, paddingBottom: 28 }} showsVerticalScrollIndicator={false}>
       <Text style={{ fontFamily: font.display, fontSize: 25, color: c.ink, letterSpacing: -0.6 }}>Innstillinger</Text>
       <Text style={{ fontFamily: font.body, fontSize: 13, color: c.inkSoft, marginTop: 4, marginBottom: 18 }}>Konto, app og varsler</Text>
 

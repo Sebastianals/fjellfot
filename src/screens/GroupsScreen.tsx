@@ -17,7 +17,7 @@ export default function GroupsScreen({ navigation }: any) {
   return (
     <ScrollView
       style={{ flex: 1, backgroundColor: c.snow }}
-      contentContainerStyle={{ paddingTop: insets.top + 8, paddingHorizontal: 22, paddingBottom: 120 }}
+      contentContainerStyle={{ paddingTop: insets.top + 8, paddingHorizontal: 22, paddingBottom: 28 }}
       showsVerticalScrollIndicator={false}
     >
       <Text style={{ fontFamily: font.display, fontSize: 25, color: c.ink, letterSpacing: -0.6 }}>Grupper</Text>

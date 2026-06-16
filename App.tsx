@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Pressable } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -8,8 +8,8 @@ import { tap } from './src/components/UI';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { font } from './src/theme/theme';
 import {
   useFonts, Sora_600SemiBold, Sora_700Bold, Sora_800ExtraBold,
 } from '@expo-google-fonts/sora';
@@ -42,56 +42,51 @@ const TAB_ICONS: Record<string, keyof typeof Ionicons.glyphMap> = {
   Hjem: 'home', Kart: 'map', Rang: 'star', Grupper: 'people', Innstillinger: 'person',
 };
 
-function FloatingDock({ state, navigation }: any) {
+const TAB_LABELS: Record<string, string> = {
+  Hjem: 'Hjem', Kart: 'Kart', Rang: 'Rang', Grupper: 'Grupper', Innstillinger: 'Mer',
+};
+
+function BottomDock({ state, navigation }: any) {
   const { c } = useTheme();
   const insets = useSafeAreaInsets();
   return (
-    <View pointerEvents="box-none" style={{ position: 'absolute', left: 0, right: 0, bottom: insets.bottom + 10, alignItems: 'center' }}>
-      <View
-        style={{
-          flexDirection: 'row', alignItems: 'center', gap: 4, padding: 9, borderRadius: 28,
-          backgroundColor: c.surface, borderWidth: 1, borderColor: c.stoneLine,
-          shadowColor: '#000', shadowOpacity: 0.18, shadowRadius: 24, shadowOffset: { width: 0, height: 12 }, elevation: 14,
-        }}
-      >
-        {state.routes.map((route: any, i: number) => {
-          const focused = state.index === i;
-          const isCenter = route.name === 'Rang';
-          const onPress = () => {
-            tap();
-            const e = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
-            if (!focused && !e.defaultPrevented) navigation.navigate(route.name);
-          };
-          if (isCenter) {
-            return (
-              <Pressable key={route.key} onPress={onPress} hitSlop={8} style={{ marginTop: -22 }}>
-                <LinearGradient
-                  colors={['#FF8A47', '#E2480A']}
-                  style={{
-                    width: 60, height: 60, borderRadius: 21, alignItems: 'center', justifyContent: 'center',
-                    borderWidth: 4, borderColor: c.surface,
-                    shadowColor: '#E2480A', shadowOpacity: 0.55, shadowRadius: 14, shadowOffset: { width: 0, height: 8 }, elevation: 12,
-                  }}
-                >
-                  <Ionicons name="star" size={28} color="#fff" />
-                </LinearGradient>
-              </Pressable>
-            );
-          }
-          return (
-            <Pressable key={route.key} onPress={onPress} hitSlop={6} style={{ width: 50, height: 50, borderRadius: 17, alignItems: 'center', justifyContent: 'center', backgroundColor: focused ? c.emberGlow : 'transparent' }}>
-              <Ionicons name={TAB_ICONS[route.name]} size={24} color={focused ? c.ember : c.inkSoft} />
-            </Pressable>
-          );
-        })}
-      </View>
+    <View
+      style={{
+        flexDirection: 'row', backgroundColor: c.surface,
+        borderTopLeftRadius: 28, borderTopRightRadius: 28,
+        borderTopWidth: 1, borderColor: c.stoneLine,
+        paddingTop: 10, paddingBottom: insets.bottom > 0 ? insets.bottom : 12, paddingHorizontal: 6,
+        shadowColor: '#16120F', shadowOpacity: 0.08, shadowRadius: 16, shadowOffset: { width: 0, height: -4 }, elevation: 16,
+      }}
+    >
+      {state.routes.map((route: any, i: number) => {
+        const focused = state.index === i;
+        const isCenter = route.name === 'Rang';
+        const onPress = () => {
+          tap();
+          const e = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
+          if (!focused && !e.defaultPrevented) navigation.navigate(route.name);
+        };
+        return (
+          <Pressable key={route.key} onPress={onPress} hitSlop={4} style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 4 }}>
+            {isCenter ? (
+              <View style={{ width: 40, height: 40, borderRadius: 14, backgroundColor: focused ? c.ember : c.emberGlow, alignItems: 'center', justifyContent: 'center' }}>
+                <Ionicons name="star" size={22} color={focused ? '#fff' : c.ember} />
+              </View>
+            ) : (
+              <Ionicons name={TAB_ICONS[route.name]} size={24} color={focused ? c.ember : c.inkFaint} />
+            )}
+            <Text style={{ fontSize: 10, fontFamily: focused ? font.bodyBold : font.body, color: focused ? c.ember : c.inkFaint }}>{TAB_LABELS[route.name]}</Text>
+          </Pressable>
+        );
+      })}
     </View>
   );
 }
 
 function Tabs() {
   return (
-    <Tab.Navigator tabBar={(props) => <FloatingDock {...props} />} screenOptions={{ headerShown: false }}>
+    <Tab.Navigator tabBar={(props) => <BottomDock {...props} />} screenOptions={{ headerShown: false }}>
       <Tab.Screen name="Hjem" component={HomeScreen} />
       <Tab.Screen name="Kart" component={MapScreen} />
       <Tab.Screen name="Rang" component={RankScreen} />
