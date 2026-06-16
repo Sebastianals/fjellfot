@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Pressable, ScrollView, ActivityIndicator } from
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import MapView, { Marker, Polygon, UrlTile, PROVIDER_DEFAULT, Region } from 'react-native-maps';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
 import { font } from '../theme/theme';
@@ -13,12 +14,15 @@ import { useNearbyTrails } from '../hooks/useNearbyTrails';
 import { subscribePois, Poi } from '../lib/db';
 import { cellPolygon, explorePct } from '../lib/zones';
 
-// Kartverket (norgeskart.no) topographic raster tiles — open WMTS, web mercator.
-const KARTVERKET_TOPO = 'https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png';
+// Kartverket (norgeskart.no) raster tiles — open WMTS, web mercator.
+const TOPO_LIGHT = 'https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png';
+const TOPO_DARK = 'https://cache.kartverket.no/v1/wmts/1.0.0/topograatone/default/webmercator/{z}/{y}/{x}.png';
 // National marked hiking-trail network (OSM-derived), overlaid on top.
 const TRAILS_OVERLAY = 'https://tile.waymarkedtrails.org/hiking/{z}/{x}/{y}.png';
 
 const BERGEN = { latitude: 60.39, longitude: 5.32, latitudeDelta: 0.18, longitudeDelta: 0.18 };
+// Mainland Norway bounding box — the camera is clamped inside this.
+const NO = { latMin: 57.5, latMax: 71.4, lngMin: 4.0, lngMax: 31.5 };
 // Outer ring covers mainland Norway so revealed cells always fall inside it.
 const NORWAY_BOX = [
   { latitude: 57.0, longitude: 3.5 },
@@ -41,8 +45,9 @@ export default function MapScreen({ navigation }: any) {
   const [center, setCenter] = useState({ lat: BERGEN.latitude, lng: BERGEN.longitude });
   const { trails, loading: trailsLoading, error: trailsError } = useNearbyTrails(center.lat, center.lng);
 
+  const baseTiles = isDark ? TOPO_DARK : TOPO_LIGHT;
   const holes = useMemo(() => cells.map((id) => cellPolygon(id)), [cells]);
-  const fogColor = isDark ? 'rgba(8,6,5,0.82)' : 'rgba(34,28,23,0.55)';
+  const fogColor = isDark ? 'rgba(8,6,5,0.82)' : 'rgba(34,28,23,0.5)';
   const pct = explorePct(cells.length).toFixed(1).replace('.', ',');
 
   const flyTo = (lat: number, lng: number) => {
@@ -60,13 +65,25 @@ export default function MapScreen({ navigation }: any) {
         style={StyleSheet.absoluteFill}
         provider={PROVIDER_DEFAULT}
         initialRegion={BERGEN}
-        onRegionChangeComplete={(r) => { region.current = r; setCenter({ lat: r.latitude, lng: r.longitude }); }}
+        minZoomLevel={4}
+        rotateEnabled={false}
+        pitchEnabled={false}
+        onRegionChangeComplete={(r) => {
+          // Clamp the camera to Norway so the map never leaves the country.
+          const lat = Math.min(NO.latMax, Math.max(NO.latMin, r.latitude));
+          const lng = Math.min(NO.lngMax, Math.max(NO.lngMin, r.longitude));
+          region.current = { ...r, latitude: lat, longitude: lng };
+          if (Math.abs(lat - r.latitude) > 0.001 || Math.abs(lng - r.longitude) > 0.001) {
+            mapRef.current?.animateToRegion({ ...r, latitude: lat, longitude: lng }, 250);
+          }
+          setCenter({ lat, lng });
+        }}
         userInterfaceStyle={isDark ? 'dark' : 'light'}
         showsUserLocation={status === 'granted'}
         showsCompass={false}
       >
-        {/* Real norgeskart.no topographic base map. */}
-        <UrlTile urlTemplate={KARTVERKET_TOPO} maximumZ={18} zIndex={-2} tileSize={256} />
+        {/* Real norgeskart.no base map (greyscale in dark mode). */}
+        <UrlTile key={baseTiles} urlTemplate={baseTiles} maximumZ={18} zIndex={-2} tileSize={256} />
         {/* National marked hiking trails overlaid on top of the topo. */}
         <UrlTile urlTemplate={TRAILS_OVERLAY} maximumZ={18} zIndex={-1} tileSize={256} opacity={0.9} />
         {/* Fog of war: one dark polygon with a hole punched out per explored cell. */}
@@ -147,12 +164,11 @@ export default function MapScreen({ navigation }: any) {
           )}
           {trails.map((t) => (
             <Pressable key={t.id} onPress={() => flyTo(t.lat, t.lng)} style={styles.poi}>
-              <LinearGradient colors={['#3fb56e', '#2a8a4f']} style={{ width: 46, height: 46, borderRadius: 14, alignItems: 'center', justifyContent: 'center' }}>
-                <Ionicons name="trail-sign" size={22} color="#fff" />
-              </LinearGradient>
+              <Image source={t.image} style={{ width: 56, height: 56, borderRadius: 15, backgroundColor: c.stone }} contentFit="cover" transition={250} />
               <View style={{ flex: 1 }}>
                 <Text style={{ fontFamily: font.heading, fontSize: 14.5, color: c.ink }} numberOfLines={1}>{t.name}</Text>
-                <Text style={{ fontSize: 11.5, color: c.inkSoft, marginTop: 3 }}>{t.kind} · {t.km.toString().replace('.', ',')} km unna</Text>
+                <Text style={{ fontSize: 11.5, color: c.inkSoft, marginTop: 3 }} numberOfLines={1}>{t.info}</Text>
+                <Text style={{ fontSize: 11, color: c.ember, fontFamily: font.bodyBold, marginTop: 2 }}>{t.km.toString().replace('.', ',')} km unna</Text>
               </View>
               <Ionicons name="chevron-forward" size={18} color={c.inkFaint} />
             </Pressable>

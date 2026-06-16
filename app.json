@@ -13,7 +13,9 @@
       "backgroundColor": "#16120F",
       "resizeMode": "contain"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "no.fjellfot.app",
@@ -32,15 +34,38 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#16120F"
       },
-      "permissions": ["ACTIVITY_RECOGNITION", "ACCESS_FINE_LOCATION"]
+      "permissions": [
+        "ACTIVITY_RECOGNITION",
+        "ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "ACTIVITY_RECOGNITION",
+        "ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ]
     },
     "plugins": [
-      ["expo-location", { "locationWhenInUsePermission": "Fjellfot viser turstier i nærheten og avdekker kartet mens du går." }],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Fjellfot viser turstier i nærheten og avdekker kartet mens du går."
+        }
+      ],
       "expo-notifications",
       "expo-font"
     ],
     "extra": {
-      "eas": { "projectId": "REPLACE_AFTER_eas_init" }
+      "eas": {
+        "projectId": "512fc51f-b7dc-4bd9-ade9-a29356377fff"
+      }
+    },
+    "owner": "sebbials",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/512fc51f-b7dc-4bd9-ade9-a29356377fff"
     }
   }
 }

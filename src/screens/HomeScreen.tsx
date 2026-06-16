@@ -2,10 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
+import Svg, { Path } from 'react-native-svg';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
 import { font } from '../theme/theme';
 import { Card, SectionHeader, Avatar, Pill, ProgressRing, FadeIn, tap } from '../components/UI';
+import { MountainChart } from '../components/MountainChart';
 import { usePedometer } from '../hooks/usePedometer';
 import { useAuth } from '../lib/AuthContext';
 import { useSettings } from '../lib/SettingsContext';
@@ -50,6 +52,10 @@ export default function HomeScreen({ navigation }: any) {
 
       <FadeIn>
       <LinearGradient colors={['#211C18', '#2E2620', '#3d2f24']} start={{ x: 0, y: 0 }} end={{ x: 0.4, y: 1 }} style={styles.hero}>
+        <Svg width="100%" height={76} style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }} viewBox="0 0 390 76" preserveAspectRatio="none">
+          <Path d="M0,76 L0,48 L55,30 L110,44 L165,18 L220,40 L280,16 L335,36 L390,24 L390,76 Z" fill="rgba(255,107,26,0.13)" />
+          <Path d="M0,76 L0,58 L60,46 L120,54 L180,36 L240,52 L300,34 L360,48 L390,40 L390,76 Z" fill="rgba(255,107,26,0.07)" />
+        </Svg>
         <View style={styles.heroTop}>
           <Text style={styles.heroLabel}>I DAG</Text>
           {(profile?.streak ?? 0) > 0 && (
@@ -85,19 +91,8 @@ export default function HomeScreen({ navigation }: any) {
                 <Text style={{ fontFamily: font.display, fontSize: 24, color: c.ink }}>{weekTotal.toLocaleString('nb-NO')}<Text style={{ fontSize: 13, color: c.inkSoft, fontFamily: font.body }}>  skritt</Text></Text>
                 <Text style={{ fontSize: 12, color: c.inkSoft, fontFamily: font.bodyBold }}>{fmtDistance(weekTotal * 0.00072)}</Text>
               </View>
-              <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', height: 90 }}>
-                {week.map((d, i) => {
-                  const h = Math.max(6, Math.round((d.steps / weekMax) * 76));
-                  const isToday = i === week.length - 1;
-                  const hitGoal = d.steps >= goal;
-                  return (
-                    <View key={i} style={{ alignItems: 'center', flex: 1, gap: 6 }}>
-                      <View style={{ width: 18, height: h, borderRadius: 6, backgroundColor: hitGoal ? c.gold : c.ember, opacity: d.steps === 0 ? 0.22 : isToday ? 1 : 0.78 }} />
-                      <Text style={{ fontSize: 10, color: isToday ? c.ember : c.inkSoft, fontFamily: font.bodyBold }}>{d.label}</Text>
-                    </View>
-                  );
-                })}
-              </View>
+              <MountainChart data={week} goal={goal} height={104} />
+              <Text style={{ fontSize: 11, color: c.inkFaint, textAlign: 'center', marginTop: 8 }}>Hver topp er en dag · snø = mål nådd · trykk for detaljer</Text>
             </Card>
           </Pressable>
         </>
@@ -166,7 +161,7 @@ function HStat({ v, label }: { v: string; label: string }) {
 
 const styles = StyleSheet.create({
   greeting: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginTop: 6, marginBottom: 22 },
-  hero: { borderRadius: 34, padding: 24, marginBottom: 4 },
+  hero: { borderRadius: 34, padding: 24, marginBottom: 4, overflow: 'hidden' },
   heroTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', minHeight: 30 },
   heroLabel: { fontSize: 11, fontFamily: font.bodyBold, letterSpacing: 1.4, color: 'rgba(255,255,255,0.55)' },
   streak: { flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: 'rgba(255,107,26,0.18)', borderWidth: 1, borderColor: 'rgba(255,107,26,0.45)', paddingHorizontal: 13, paddingVertical: 7, borderRadius: 99 },

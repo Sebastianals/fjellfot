@@ -1,6 +1,21 @@
 import { useEffect, useState } from 'react';
 
-export type Trail = { id: string; name: string; lat: number; lng: number; km: number; kind: string };
+export type Trail = { id: string; name: string; lat: number; lng: number; km: number; kind: string; info: string; image: string };
+
+// Representative Norwegian-hiking photos, picked deterministically per trail.
+const PHOTOS = [
+  'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=240&q=60',
+  'https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=240&q=60',
+  'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=240&q=60',
+  'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=240&q=60',
+  'https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=240&q=60',
+  'https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=240&q=60',
+];
+const SAC: Record<string, string> = {
+  hiking: 'Lett', mountain_hiking: 'Moderat', demanding_mountain_hiking: 'Krevende',
+  alpine_hiking: 'Krevende', demanding_alpine_hiking: 'Svært krevende',
+};
+function hash(s: string) { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0; return h; }
 
 const ENDPOINTS = [
   'https://overpass-api.de/api/interpreter',
@@ -54,14 +69,22 @@ export function useNearbyTrails(lat: number, lng: number) {
         const list: Trail[] = (j.elements || [])
           .map((e: any) => {
             const center = e.center || { lat: e.lat, lon: e.lon };
-            if (!center?.lat || !e.tags?.name) return null;
+            const t = e.tags || {};
+            if (!center?.lat || !t.name) return null;
+            const kind = e.type === 'relation' ? 'Tursti' : 'Sti';
+            const len = t.distance ? `${String(t.distance).replace('.', ',')} km` : '';
+            const diff = SAC[t.sac_scale] || '';
+            const info = [kind, len, diff].filter(Boolean).join(' · ');
+            const img = typeof t.image === 'string' && t.image.startsWith('http') ? t.image : PHOTOS[hash(String(e.id)) % PHOTOS.length];
             return {
               id: String(e.id),
-              name: e.tags.name as string,
+              name: t.name as string,
               lat: center.lat,
               lng: center.lon,
               km: +haversineKm(lat, lng, center.lat, center.lon).toFixed(1),
-              kind: e.type === 'relation' ? 'Tursti' : 'Sti',
+              kind,
+              info,
+              image: img,
             } as Trail;
           })
           .filter((t: Trail | null): t is Trail => {

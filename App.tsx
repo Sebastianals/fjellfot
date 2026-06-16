@@ -32,6 +32,7 @@ import TopplisteScreen from './src/screens/TopplisteScreen';
 import WelcomeScreen from './src/screens/WelcomeScreen';
 import ProfileSetupScreen from './src/screens/ProfileSetupScreen';
 import StatsScreen from './src/screens/StatsScreen';
+import SettingsDetailScreen from './src/screens/SettingsDetailScreen';
 import OnboardingScreen from './src/screens/OnboardingScreen';
 
 const Stack = createNativeStackNavigator();
@@ -63,9 +64,16 @@ function FloatingDock({ state, navigation }: any) {
           };
           if (isCenter) {
             return (
-              <Pressable key={route.key} onPress={onPress} hitSlop={6}>
-                <LinearGradient colors={focused ? ['#FF8A47', '#E2480A'] : [c.stone, c.stone]} style={{ width: 56, height: 56, borderRadius: 19, alignItems: 'center', justifyContent: 'center' }}>
-                  <Ionicons name="star" size={27} color={focused ? '#fff' : c.inkSoft} />
+              <Pressable key={route.key} onPress={onPress} hitSlop={8} style={{ marginTop: -22 }}>
+                <LinearGradient
+                  colors={['#FF8A47', '#E2480A']}
+                  style={{
+                    width: 60, height: 60, borderRadius: 21, alignItems: 'center', justifyContent: 'center',
+                    borderWidth: 4, borderColor: c.surface,
+                    shadowColor: '#E2480A', shadowOpacity: 0.55, shadowRadius: 14, shadowOffset: { width: 0, height: 8 }, elevation: 12,
+                  }}
+                >
+                  <Ionicons name="star" size={28} color="#fff" />
                 </LinearGradient>
               </Pressable>
             );
@@ -132,6 +140,7 @@ function Root() {
             <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
             <Stack.Screen name="Toppliste" component={TopplisteScreen} options={{ animation: 'slide_from_bottom' }} />
             <Stack.Screen name="Stats" component={StatsScreen} options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
+            <Stack.Screen name="SettingsDetail" component={SettingsDetailScreen} options={{ animation: 'slide_from_right' }} />
           </>
         )}
       </Stack.Navigator>

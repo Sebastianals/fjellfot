@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
 import { font } from '../theme/theme';
 import { Card, tap } from '../components/UI';
+import { MountainChart } from '../components/MountainChart';
 import { usePedometer } from '../hooks/usePedometer';
 import { useSettings } from '../lib/SettingsContext';
 import { useAuth } from '../lib/AuthContext';
@@ -39,19 +40,7 @@ export default function StatsScreen({ navigation }: any) {
       <ScrollView contentContainerStyle={{ padding: 22, paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
         <Text style={{ fontFamily: font.bodyBold, fontSize: 12, color: c.inkSoft, textTransform: 'uppercase', letterSpacing: 0.7, marginBottom: 10 }}>Siste 7 dager</Text>
         <Card style={{ padding: 18 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', height: 140 }}>
-            {week.map((d, i) => {
-              const h = Math.max(8, Math.round((d.steps / max) * 110));
-              const hit = d.steps >= goal;
-              return (
-                <View key={i} style={{ alignItems: 'center', flex: 1, gap: 6 }}>
-                  <Text style={{ fontSize: 9, color: c.inkFaint, fontFamily: font.bodyBold }}>{d.steps >= 1000 ? `${(d.steps / 1000).toFixed(1).replace('.', ',')}k` : d.steps}</Text>
-                  <View style={{ width: 20, height: h, borderRadius: 6, backgroundColor: hit ? c.gold : c.ember, opacity: d.steps === 0 ? 0.25 : 1 }} />
-                  <Text style={{ fontSize: 10, color: c.inkSoft, fontFamily: font.bodyBold }}>{d.label}</Text>
-                </View>
-              );
-            })}
-          </View>
+          <MountainChart data={week} goal={goal} height={150} />
         </Card>
 
         <View style={styles.grid}>
