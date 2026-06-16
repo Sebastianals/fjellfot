@@ -1,0 +1,28 @@
+{
+  "cli": { "version": ">= 5.0.0", "appVersionSource": "remote" },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": { "simulator": false },
+      "channel": "development"
+    },
+    "preview": {
+      "distribution": "internal",
+      "channel": "preview"
+    },
+    "production": {
+      "autoIncrement": true,
+      "channel": "production"
+    }
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "appleId": "REPLACE_with_your_apple_id_email",
+        "ascAppId": "REPLACE_with_App_Store_Connect_app_id",
+        "appleTeamId": "REPLACE_with_your_team_id"
+      }
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "expo": {
+    "name": "Fjellfot",
+    "slug": "fjellfot",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "fjellfot",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "backgroundColor": "#16120F",
+      "resizeMode": "contain"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "no.fjellfot.app",
+      "buildNumber": "1",
+      "infoPlist": {
+        "NSMotionUsageDescription": "Fjellfot bruker bevegelsesdata for å telle skrittene dine.",
+        "NSLocationWhenInUseUsageDescription": "Fjellfot viser turstier i nærheten og avdekker kartet mens du går.",
+        "NSHealthShareUsageDescription": "Fjellfot kan synkronisere skritt fra Apple Health.",
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "no.fjellfot.app",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#16120F"
+      },
+      "permissions": ["ACTIVITY_RECOGNITION", "ACCESS_FINE_LOCATION"]
+    },
+    "plugins": [
+      ["expo-location", { "locationWhenInUsePermission": "Fjellfot viser turstier i nærheten og avdekker kartet mens du går." }],
+      "expo-notifications",
+      "expo-font"
+    ],
+    "extra": {
+      "eas": { "projectId": "REPLACE_AFTER_eas_init" }
+    }
+  }
+}

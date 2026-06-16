@@ -1,0 +1,149 @@
+﻿== npm install ==
+node.exe : npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out
+ lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensiv
+e and powerful.
+At C:\Program Files\nodejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (npm warn deprec...e and powerful.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerab
+ilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exo
+rbitant rates) by contacting i@izs.me
+npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerab
+ilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exo
+rbitant rates) by contacting i@izs.me
+npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerab
+ilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exo
+rbitant rates) by contacting i@izs.me
+npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerab
+ilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exo
+rbitant rates) by contacting i@izs.me
+npm warn deprecated uuid@7.0.3: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  F
+or CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+
+added 702 packages in 4m
+
+53 packages are looking for funding
+  run `npm fund` for details
+== expo install deps ==
+Unable to fetch compatibility data from React Native Directory. Skipping check.
+node.exe : TypeError: fetch failed
+At C:\Program Files\nodejs\npx.ps1:29 char:3
++   & $NODE_EXE $NPX_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (TypeError: fetch failed:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+TypeError: fetch failed
+    at node:internal/deps/undici/undici:13502:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async fetchWithCredentials (C:\Users\Sebbi\Downloads\fjellfot-run\node_modules\expo\node_modules\@expo\cli\build
+\src\api\rest\client.js:105:30)
+    at async cachedFetch (C:\Users\Sebbi\Downloads\fjellfot-run\node_modules\expo\node_modules\@expo\cli\build\src\api\
+rest\cache\wrapFetchWithCache.js:35:30)
+    at async getNativeModuleVersionsAsync (C:\Users\Sebbi\Downloads\fjellfot-run\node_modules\expo\node_modules\@expo\c
+li\build\src\api\getNativeModuleVersions.js:19:22)
+    at async getVersionedNativeModulesAsync (C:\Users\Sebbi\Downloads\fjellfot-run\node_modules\expo\node_modules\@expo
+\cli\build\src\start\doctor\dependencies\bundledNativeModules.js:87:20)
+    at async getCombinedKnownVersionsAsync (C:\Users\Sebbi\Downloads\fjellfot-run\node_modules\expo\node_modules\@expo\
+cli\build\src\start\doctor\dependencies\getVersionedPackages.js:68:47)
+    at async getVersionedPackagesAsync (C:\Users\Sebbi\Downloads\fjellfot-run\node_modules\expo\node_modules\@expo\cli\
+build\src\start\doctor\dependencies\getVersionedPackages.js:109:28)
+    at async installPackagesAsync (C:\Users\Sebbi\Downloads\fjellfot-run\node_modules\expo\node_modules\@expo\cli\build
+\src\install\installAsync.js:151:24)
+== tsc ==
+App.tsx(3,62): error TS2307: Cannot find module '@react-navigation/native' or its corresponding type declarations.
+App.tsx(4,44): error TS2307: Cannot find module '@react-navigation/native-stack' or its corresponding type declarations.
+App.tsx(5,42): error TS2307: Cannot find module '@react-navigation/bottom-tabs' or its corresponding type declarations.
+App.tsx(6,34): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+App.tsx(7,40): error TS2307: Cannot find module 'react-native-gesture-handler' or its corresponding type declarations.
+App.tsx(9,26): error TS2307: Cannot find module '@expo/vector-icons' or its corresponding type declarations.
+App.tsx(10,32): error TS2307: Cannot find module 'expo-linear-gradient' or its corresponding type declarations.
+App.tsx(11,26): error TS2307: Cannot find module '@react-native-async-storage/async-storage' or its corresponding type declarations.
+App.tsx(14,8): error TS2307: Cannot find module '@expo-google-fonts/sora' or its corresponding type declarations.
+App.tsx(15,48): error TS2307: Cannot find module '@expo-google-fonts/inter' or its corresponding type declarations.
+App.tsx(44,25): error TS7031: Binding element 'route' implicitly has an 'any' type.
+App.tsx(53,24): error TS7031: Binding element 'color' implicitly has an 'any' type.
+App.tsx(53,31): error TS7031: Binding element 'focused' implicitly has an 'any' type.
+App.tsx(83,54): error TS7006: Parameter 'v' implicitly has an 'any' type.
+src/components/UI.tsx(3,72): error TS2307: Cannot find module 'react-native-svg' or its corresponding type declarations.
+src/components/UI.tsx(4,32): error TS2307: Cannot find module 'expo-linear-gradient' or its corresponding type declarations.
+src/components/UI.tsx(5,26): error TS2307: Cannot find module 'expo-haptics' or its corresponding type declarations.
+src/hooks/useExploration.ts(2,27): error TS2307: Cannot find module 'expo-location' or its corresponding type declarations.
+src/hooks/useExploration.ts(59,10): error TS7006: Parameter 'loc' implicitly has an 'any' type.
+src/hooks/usePedometer.ts(2,27): error TS2307: Cannot find module 'expo-sensors' or its corresponding type declarations.
+src/hooks/usePedometer.ts(39,39): error TS7006: Parameter 'res' implicitly has an 'any' type.
+src/lib/AuthContext.tsx(2,105): error TS2307: Cannot find module 'firebase/auth' or its corresponding type declarations.
+src/lib/AuthContext.tsx(26,45): error TS7006: Parameter 'u' implicitly has an 'any' type.
+src/lib/db.ts(4,8): error TS2307: Cannot find module 'firebase/firestore' or its corresponding type declarations.
+src/lib/db.ts(69,45): error TS7006: Parameter 's' implicitly has an 'any' type.
+src/lib/db.ts(87,25): error TS7006: Parameter 'snap' implicitly has an 'any' type.
+src/lib/db.ts(89,13): error TS7006: Parameter 'd' implicitly has an 'any' type.
+src/lib/db.ts(90,14): error TS7006: Parameter 'a' implicitly has an 'any' type.
+src/lib/db.ts(90,17): error TS7006: Parameter 'b' implicitly has an 'any' type.
+src/lib/db.ts(97,73): error TS7006: Parameter 'snap' implicitly has an 'any' type.
+src/lib/db.ts(98,23): error TS7006: Parameter 'd' implicitly has an 'any' type.
+src/lib/db.ts(104,45): error TS7006: Parameter 's' implicitly has an 'any' type.
+src/lib/db.ts(108,70): error TS7006: Parameter 'snap' implicitly has an 'any' type.
+src/lib/db.ts(110,13): error TS7006: Parameter 'd' implicitly has an 'any' type.
+src/lib/db.ts(111,14): error TS7006: Parameter 'a' implicitly has an 'any' type.
+src/lib/db.ts(111,17): error TS7006: Parameter 'b' implicitly has an 'any' type.
+src/lib/db.ts(117,67): error TS7006: Parameter 'snap' implicitly has an 'any' type.
+src/lib/db.ts(119,13): error TS7006: Parameter 'd' implicitly has an 'any' type.
+src/lib/db.ts(120,14): error TS7006: Parameter 'a' implicitly has an 'any' type.
+src/lib/db.ts(120,17): error TS7006: Parameter 'b' implicitly has an 'any' type.
+src/lib/db.ts(193,46): error TS7006: Parameter 'snap' implicitly has an 'any' type.
+src/lib/db.ts(193,73): error TS7006: Parameter 'd' implicitly has an 'any' type.
+src/lib/db.ts(215,61): error TS7006: Parameter 'snap' implicitly has an 'any' type.
+src/lib/db.ts(215,88): error TS7006: Parameter 'd' implicitly has an 'any' type.
+src/lib/firebase.ts(1,48): error TS2307: Cannot find module 'firebase/app' or its corresponding type declarations.
+src/lib/firebase.ts(2,41): error TS2307: Cannot find module 'firebase/auth' or its corresponding type declarations.
+src/lib/firebase.ts(5,37): error TS2307: Cannot find module 'firebase/firestore' or its corresponding type declarations.
+src/lib/firebase.ts(6,26): error TS2307: Cannot find module '@react-native-async-storage/async-storage' or its corresponding type declarations.
+src/lib/notifications.ts(1,32): error TS2307: Cannot find module 'expo-notifications' or its corresponding type declarations.
+src/screens/AddPlaceScreen.tsx(3,35): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/screens/AddPlaceScreen.tsx(4,26): error TS2307: Cannot find module '@expo/vector-icons' or its corresponding type declarations.
+src/screens/CreateGroupScreen.tsx(3,35): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/screens/CreateGroupScreen.tsx(4,32): error TS2307: Cannot find module 'expo-linear-gradient' or its corresponding type declarations.
+src/screens/CreateGroupScreen.tsx(5,26): error TS2307: Cannot find module '@expo/vector-icons' or its corresponding type declarations.
+src/screens/EditProfileScreen.tsx(3,35): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/screens/EditProfileScreen.tsx(4,26): error TS2307: Cannot find module '@expo/vector-icons' or its corresponding type declarations.
+src/screens/GroupDetailScreen.tsx(3,35): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/screens/GroupDetailScreen.tsx(4,32): error TS2307: Cannot find module 'expo-linear-gradient' or its corresponding type declarations.
+src/screens/GroupDetailScreen.tsx(5,26): error TS2307: Cannot find module '@expo/vector-icons' or its corresponding type declarations.
+src/screens/GroupsScreen.tsx(3,35): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/screens/GroupsScreen.tsx(4,32): error TS2307: Cannot find module 'expo-linear-gradient' or its corresponding type declarations.
+src/screens/GroupsScreen.tsx(5,26): error TS2307: Cannot find module '@expo/vector-icons' or its corresponding type declarations.
+src/screens/HomeScreen.tsx(3,35): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/screens/HomeScreen.tsx(4,32): error TS2307: Cannot find module 'expo-linear-gradient' or its corresponding type declarations.
+src/screens/HomeScreen.tsx(5,26): error TS2307: Cannot find module '@expo/vector-icons' or its corresponding type declarations.
+src/screens/JoinGroupScreen.tsx(3,35): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/screens/JoinGroupScreen.tsx(4,26): error TS2307: Cannot find module '@expo/vector-icons' or its corresponding type declarations.
+src/screens/MapScreen.tsx(3,35): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/screens/MapScreen.tsx(4,68): error TS2307: Cannot find module 'react-native-maps' or its corresponding type declarations.
+src/screens/MapScreen.tsx(5,32): error TS2307: Cannot find module 'expo-linear-gradient' or its corresponding type declarations.
+src/screens/MapScreen.tsx(6,26): error TS2307: Cannot find module '@expo/vector-icons' or its corresponding type declarations.
+src/screens/MapScreen.tsx(61,34): error TS7006: Parameter 'r' implicitly has an 'any' type.
+src/screens/OnboardingScreen.tsx(3,35): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/screens/OnboardingScreen.tsx(4,32): error TS2307: Cannot find module 'expo-linear-gradient' or its corresponding type declarations.
+src/screens/OnboardingScreen.tsx(5,26): error TS2307: Cannot find module '@expo/vector-icons' or its corresponding type declarations.
+src/screens/OnboardingScreen.tsx(6,26): error TS2307: Cannot find module '@react-native-async-storage/async-storage' or its corresponding type declarations.
+src/screens/RankScreen.tsx(3,35): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/screens/RankScreen.tsx(4,32): error TS2307: Cannot find module 'expo-linear-gradient' or its corresponding type declarations.
+src/screens/RankScreen.tsx(5,26): error TS2307: Cannot find module '@expo/vector-icons' or its corresponding type declarations.
+src/screens/SettingsScreen.tsx(3,35): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/screens/SettingsScreen.tsx(4,32): error TS2307: Cannot find module 'expo-linear-gradient' or its corresponding type declarations.
+src/screens/SettingsScreen.tsx(5,26): error TS2307: Cannot find module '@expo/vector-icons' or its corresponding type declarations.
+src/screens/TopplisteScreen.tsx(3,35): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/screens/TopplisteScreen.tsx(4,32): error TS2307: Cannot find module 'expo-linear-gradient' or its corresponding type declarations.
+src/screens/TopplisteScreen.tsx(5,26): error TS2307: Cannot find module '@expo/vector-icons' or its corresponding type declarations.
+src/screens/WelcomeScreen.tsx(3,35): error TS2307: Cannot find module 'react-native-safe-area-context' or its corresponding type declarations.
+src/screens/WelcomeScreen.tsx(4,32): error TS2307: Cannot find module 'expo-linear-gradient' or its corresponding type declarations.
+src/screens/WelcomeScreen.tsx(5,26): error TS2307: Cannot find module '@expo/vector-icons' or its corresponding type declarations.
+src/theme/ThemeContext.tsx(3,26): error TS2307: Cannot find module '@react-native-async-storage/async-storage' or its corresponding type declarations.
+src/theme/ThemeContext.tsx(31,37): error TS7006: Parameter 'v' implicitly has an 'any' type.
+== TSC_EXIT 2 ==
+== DONE ==
